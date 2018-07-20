@@ -1,15 +1,16 @@
 {
-  "name": "template-cli",
+  "name": "ypweb-cli",
   "version": "1.0.0",
-  "description": "A Tooling for vue and reactjs development",
+  "description": "A command line interface for vue and reactjs development ",
   "main": "index.js",
   "bin": {
-    "template": "bin/template",
-    "template-init": "bin/template-init",
-    "template-list": "bin/template-list"
+    "ypweb": "./bin/ypweb"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "compile": "babel src -d dist",
+    "ypweb": "babel-node src/ypweb",
+    "watch": "npm run compile -- -watch"
   },
   "keywords": [
     "vue",
@@ -21,15 +22,19 @@
   "license": "ISC",
   "dependencies": {
     "async": "^2.4.0",
-    "chalk": "^2.1.0",
+    "chalk": "^2.4.1",
     "commander": "^2.9.0",
     "consolidate": "^0.14.0",
     "download-git-repo": "^1.0.1",
     "handlebars": "^4.0.5",
+    "ini": "^1.3.5",
     "inquirer": "^6.0.0",
     "metalsmith": "^2.1.0",
     "minimatch": "^3.0.0",
+    "mkdirp": "^0.5.1",
     "multimatch": "^2.1.0",
+    "mz": "^2.7.0",
+    "ncp": "^2.0.0",
     "ora": "^1.3.0",
     "read-metadata": "^1.0.0",
     "request": "^2.67.0",
@@ -39,5 +44,12 @@
     "uid": "0.0.2",
     "user-home": "^2.0.0",
     "validate-npm-package-name": "^3.0.0"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-preset-env": "^1.6.1"
+  },
+  "engines": {
+    "node": ">=6.0.0"
   }
 }
