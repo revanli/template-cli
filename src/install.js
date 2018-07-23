@@ -1,8 +1,13 @@
+/**
+ * ypweb install
+ */
+
 
 import inquirer from 'inquirer'
 import loading from './utils/loading'
-import { repoList } from './utils/git'
+import { repoList, tagsList, download } from './utils/git'
 import chalk from 'chalk'
+import logger from './utils/logger'
 
 async function apply () {
   let loader, choices, answers, version;
@@ -13,7 +18,7 @@ async function apply () {
 
   if (repos.length === 0) {
     const registry = await rc('registry')
-    throw new Error(`There is no any scaffolds in https://github.com/${registry}. Please create and try`)
+    logger.error(`There is no any scaffolds in https://github.com/${registry}. Please create and try`)
   }
 
   // Object choices, name for display in list,
@@ -36,8 +41,29 @@ async function apply () {
   ])
 
   const repo = answers.repo
+  loader = loading('tag list fetching', repo)
+  const tags = await tagsList(repo)
+  loader.succeed()
 
+  if (tags.length === 0) {
+    version = ''
+  } else {
+    choices = tags.map(({ name }) => name);
 
+    answers = await inquirer.prompt([
+      {
+        type   : 'list',
+        name   : 'version',
+        message: 'which version do you want to install?',
+        choices
+      }
+    ])
+    version = answers.version
+  }
+
+  loader = loading('downloading', repo)
+  await download([repo, version].join('@'))
+  loader.succeed(`downloaded ${repo}`)
 }
 
 export default apply

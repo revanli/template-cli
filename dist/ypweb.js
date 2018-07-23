@@ -25,6 +25,9 @@ function help() {
   console.log('  How to use:');
   console.log();
   console.log('    - ypweb install');
+  console.log('    - ypweb init');
+  console.log('    - ypweb clear');
+  console.log('    - ypweb list');
   console.log('    - ypweb config set <key> <value>');
   console.log('    - ypweb config remove <key>');
   console.log('    - ypweb config get <key>');
@@ -56,7 +59,10 @@ try {
     var _ref2 = _asyncToGenerator(function* () {
       const registry = yield (0, _rc2.default)('registry');
       const programTypes = {
+        list: 'list installed template',
+        init: 'generate a new project from a template',
         install: `install remote templates from https://github.com/${registry}`,
+        clear: 'clear all installed templates',
         help: 'more help info:',
         config: `${_defs.dirs.rc} config file set and get`,
         '*': 'The command is not found'

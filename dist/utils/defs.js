@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.repos = exports.userAgent = exports.versions = exports.alias = exports.defaults = exports.dirs = undefined;
+exports.repos = exports.interfaces = exports.userAgent = exports.versions = exports.alias = exports.defaults = exports.dirs = undefined;
 
 var _os = require('os');
 
@@ -48,6 +48,13 @@ const versions = exports.versions = {
 };
 
 const userAgent = exports.userAgent = `${_package.name}-${_package.version}`;
+
+// 外部interface, 用于接入外部脚手架指定的ask, hook, 默认的路径配置
+const interfaces = exports.interfaces = {
+  dir: 'interfaces',
+  ask: 'interfaces/ask.js',
+  hook: 'interfaces/hook.js'
+};
 
 const repos = exports.repos = {
   default: 'https://github.com',

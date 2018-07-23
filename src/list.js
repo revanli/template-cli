@@ -1,28 +1,34 @@
-
+/**
+ * ypweb list
+ */
+import { readdir, exists } from 'mz/fs'
+import { betterRequire } from './utils/common'
+import { dirs } from './utils/defs'
 import logger from './utils/logger'
 
-/**
- * list repos
- */
+async function apply () {
+  if (!await exists(dirs.download)) {
+    logger.error(`There is no ${dirs.download}, Please install a template`)
+  }
 
- request({
-   url: 'https://api.github.com/users/vuejs-templates/repos',
-   headers: {
-     'User-Agent': 'vue-cli'
-   }
- }, (err, res, body) => {
-   if (err) logger.fatal(err)
-   const requestBody = JSON.parse(body)
-   if (Array.isArray(requestBody)) {
-     console.log('  Available official templates:')
-     console.log()
-     requestBody.forEach(repo => {
-       console.log(
-         '  ' + chalk.yellow('★') +
-         '  ' + chalk.blue(repo.name) +
-         ' - ' + repo.description)
-     })
-   } else {
-     console.error(requestBody.message)
-   }
- })
+  const list = await readdir(dirs.download)
+
+  let version, info;
+  if (list.length === 0) {
+    logger.error(`There is no template download in ${dirs.download}`)
+  }
+
+  list.forEach(dir => {
+    try {
+      info = betterRequire(`${dirs.download}/${dir}/package.json`)
+      version = info.version
+    } catch (e) {
+      version = '0.0.0'
+    }
+
+    logger.log(`${dir}@${version}`)
+  })
+
+}
+
+export default apply

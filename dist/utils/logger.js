@@ -9,23 +9,17 @@ var _util = require('util');
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /**
- * Prefix
- */
-/**
- * logger
- */
-const prefix = '  ypweb';
-const sep = _chalk2.default.gray('.');
-
-/**
  * Log a `message` to the console.
  *
  * @param {String} message
  */
 
+/**
+ * logger
+ */
 exports.log = function (...args) {
   const msg = _util.format.apply(_util.format, args);
-  console.log(_chalk2.default.white(prefix), sep, msg);
+  console.log(_chalk2.default.white(msg));
 };
 
 /**
@@ -37,7 +31,7 @@ exports.log = function (...args) {
 exports.error = function (...args) {
   if (args[0] instanceof Error) args[0] = args[0].message.trim();
   const msg = _util.format.apply(_util.format, args);
-  console.error(_chalk2.default.red(prefix), sep, msg);
+  console.error(_chalk2.default.red(msg));
   process.exit(1);
 };
 
@@ -49,5 +43,5 @@ exports.error = function (...args) {
 
 exports.success = function (...args) {
   const msg = _util.format.apply(_util.format, args);
-  console.log(_chalk2.default.green(prefix), sep, msg);
+  console.log(_chalk2.default.green(msg));
 };

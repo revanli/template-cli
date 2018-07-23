@@ -12,21 +12,32 @@ let apply = (() => {
 
     const list = yield (0, _fs.readdir)(_defs.dirs.download);
 
-    let version, info;
     if (list.length === 0) {
-      _logger2.default.error(`There is no template download in ${_defs.dirs.download}`);
+      _logger2.default.error(`There is no any template in your local folder ${_defs.dirs.download}, install it`);
     }
 
-    list.forEach(function (dir) {
-      try {
-        info = (0, _common.betterRequire)(`${_defs.dirs.download}/${dir}/package.json`);
-        version = info.version;
-      } catch (e) {
-        version = '0.0.0';
-      }
+    const answers = yield _inquirer2.default.prompt([{
+      type: 'confirm',
+      name: 'confirm',
+      message: 'Do you want to remove all installed templates?',
+      choices: list
+    }]);
 
-      _logger2.default.log(`${dir}@${version}`);
-    });
+    if (answers.confirm) {
+      const loader = (0, _loading2.default)('removing');
+      list.forEach((() => {
+        var _ref2 = _asyncToGenerator(function* (dir) {
+          return yield (0, _rimraf2.default)(`${_defs.dirs.download}/${dir}`, function (err) {
+            console.log(err);
+          });
+        });
+
+        return function (_x) {
+          return _ref2.apply(this, arguments);
+        };
+      })());
+      loader.succeed('removed all');
+    }
   });
 
   return function apply() {
@@ -36,7 +47,17 @@ let apply = (() => {
 
 var _fs = require('mz/fs');
 
-var _common = require('./utils/common');
+var _rimraf = require('rimraf');
+
+var _rimraf2 = _interopRequireDefault(_rimraf);
+
+var _inquirer = require('inquirer');
+
+var _inquirer2 = _interopRequireDefault(_inquirer);
+
+var _loading = require('./utils/loading');
+
+var _loading2 = _interopRequireDefault(_loading);
 
 var _defs = require('./utils/defs');
 
@@ -47,7 +68,7 @@ var _logger2 = _interopRequireDefault(_logger);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; } /**
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                            * ypweb list
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                            * clear downloaded templates
                                                                                                                                                                                                                                                                                                                                                                                                                                                                             */
 
 

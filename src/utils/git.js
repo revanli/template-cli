@@ -37,19 +37,35 @@ export const repoList = async () => {
 
 const getGitInfo = async (repo) => {
   let template = repo;
-  let [scaffold] = template.split('@');
+  let [scaffold] = template.split('@')
 
   scaffold = basename(scaffold);
 
-  template = template.split('@').filter(Boolean).join('#');
-  const registry = await rc('registry');
-  const url = `${registry}/${template}`;
+  template = template.split('@').filter(Boolean).join('#')
+  const registry = await rc('registry')
+  const url = `${registry}/${template}`
   return {
     url,
     scaffold
-  };
-};
+  }
+}
 
-export const tagsList = async () =>{
-  
+export const tagsList = async (repo) =>{
+  const { url, scaffold } = await getGitInfo(repo)
+  const api = `https://api.github.com/repos/${url}/tags`
+  return fetch(api, scaffold, url)
+}
+
+export const download = async (repo) => {
+  const { url, scaffold } = await getGitInfo(repo)
+
+  return new Promise((resolve, reject) => {
+    downloadGit(url, `${dirs.download}/${scaffold}`, (err) => {
+      if (err) {
+        reject(err)
+      } else {
+        resolve()
+      }
+    })
+  })
 }

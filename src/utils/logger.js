@@ -5,12 +5,6 @@ import chalk from 'chalk'
 import { format } from 'util'
 
 /**
- * Prefix
- */
-const prefix = '  ypweb'
-const sep = chalk.gray('.')
-
-/**
  * Log a `message` to the console.
  *
  * @param {String} message
@@ -18,7 +12,7 @@ const sep = chalk.gray('.')
 
 exports.log = function (...args) {
   const msg = format.apply(format, args)
-  console.log(chalk.white(prefix), sep, msg)
+  console.log(chalk.white(msg))
 }
 
 /**
@@ -30,7 +24,7 @@ exports.log = function (...args) {
 exports.error = function (...args) {
   if (args[0] instanceof Error) args[0] = args[0].message.trim()
   const msg = format.apply(format, args)
-  console.error(chalk.red(prefix), sep, msg)
+  console.error(chalk.red(msg))
   process.exit(1)
 }
 
@@ -42,5 +36,5 @@ exports.error = function (...args) {
 
 exports.success = function (...args) {
   const msg = format.apply(format, args)
-  console.log(chalk.green(prefix), sep, msg)
+  console.log(chalk.green(msg))
 }

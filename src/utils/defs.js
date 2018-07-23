@@ -37,6 +37,13 @@ export const versions = {
 
 export const userAgent = `${name}-${version}`
 
+// 外部interface, 用于接入外部脚手架指定的ask, hook, 默认的路径配置
+export const interfaces = {
+  dir: 'interfaces',
+  ask: 'interfaces/ask.js',
+  hook: 'interfaces/hook.js'
+}
+
 export const repos = {
   default: 'https://github.com',
   github: 'https://github.com',

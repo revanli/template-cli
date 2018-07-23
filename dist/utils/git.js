@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.tagsList = exports.repoList = undefined;
+exports.download = exports.tagsList = exports.repoList = undefined;
 
 var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
 
@@ -97,9 +97,41 @@ const getGitInfo = (() => {
 })();
 
 const tagsList = exports.tagsList = (() => {
-  var _ref4 = _asyncToGenerator(function* () {});
+  var _ref4 = _asyncToGenerator(function* (repo) {
+    var _ref5 = yield getGitInfo(repo);
 
-  return function tagsList() {
+    const url = _ref5.url,
+          scaffold = _ref5.scaffold;
+
+    const api = `https://api.github.com/repos/${url}/tags`;
+    return fetch(api, scaffold, url);
+  });
+
+  return function tagsList(_x2) {
     return _ref4.apply(this, arguments);
+  };
+})();
+
+const download = exports.download = (() => {
+  var _ref6 = _asyncToGenerator(function* (repo) {
+    var _ref7 = yield getGitInfo(repo);
+
+    const url = _ref7.url,
+          scaffold = _ref7.scaffold;
+
+
+    return new Promise(function (resolve, reject) {
+      (0, _downloadGitRepo2.default)(url, `${_defs.dirs.download}/${scaffold}`, function (err) {
+        if (err) {
+          reject(err);
+        } else {
+          resolve();
+        }
+      });
+    });
+  });
+
+  return function download(_x3) {
+    return _ref6.apply(this, arguments);
   };
 })();
