@@ -6,7 +6,6 @@ Object.defineProperty(exports, "__esModule", {
 
 let apply = (() => {
   var _ref = _asyncToGenerator(function* (action, k, v) {
-    console.log('action>>>', action, 'k>>>>', k, 'v>>>>', v);
     let config;
 
     switch (action) {
@@ -21,21 +20,59 @@ let apply = (() => {
         }
         break;
       case 'remove':
-        yield (0, _rc2.default)(k, v, true);
+        if (k) {
+          yield (0, _rc2.default)(k, v, true);
+        } else {
+          // remove config file
+          let answer = yield _inquirer2.default.prompt([{
+            type: 'confirm',
+            name: 'ok',
+            message: 'Do you want to remove config file?'
+          }]);
+          if (answer.ok) {
+            yield (0, _rc2.default)(k, v, true);
+          }
+        }
         break;
       case 'set':
         yield (0, _rc2.default)(k, v);
         return true;
-      default:
+      case 'list':
         config = yield (0, _rc2.default)();
         Object.keys(config).forEach(function (key) {
           return console.log(`${_chalk2.default.green(key)}=${_chalk2.default.yellow(config[key])}`);
         });
+        break;
+      default:
+        yield init();
     }
   });
 
   return function apply(_x, _x2, _x3) {
     return _ref.apply(this, arguments);
+  };
+})();
+
+let init = (() => {
+  var _ref2 = _asyncToGenerator(function* () {
+    // 新建
+    yield (0, _rc2.default)();
+    const answers = yield _inquirer2.default.prompt([{
+      type: 'list',
+      name: 'repos',
+      message: 'which repos do you want to init?',
+      choices: ['github', 'gitLab']
+    }]);
+    const repos = answers.repos;
+    if (repos.gitLab) {
+      yield (0, _rc2.default)(repos, gitLab);
+    } else if (repos.github) {
+      yield (0, _rc2.default)(repos, github);
+    }
+  });
+
+  return function init() {
+    return _ref2.apply(this, arguments);
   };
 })();
 
@@ -46,6 +83,10 @@ var _rc2 = _interopRequireDefault(_rc);
 var _chalk = require('chalk');
 
 var _chalk2 = _interopRequireDefault(_chalk);
+
+var _inquirer = require('inquirer');
+
+var _inquirer2 = _interopRequireDefault(_inquirer);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 

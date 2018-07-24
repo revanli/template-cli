@@ -30,7 +30,7 @@ async function apply () {
 
   if (answers.confirm) {
     const loader = loading('removing')
-    list.forEach(async dir => await rmfr(`${dirs.download}/${dir}`}))
+    list.forEach(async dir => await rmfr(`${dirs.download}/${dir}`))
     loader.succeed('removed all')
   }
 }

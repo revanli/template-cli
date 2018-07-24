@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.download = exports.tagsList = exports.repoList = undefined;
+exports.download = exports.searchList = exports.tagsList = exports.repoList = undefined;
 
 var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
 
@@ -112,12 +112,37 @@ const tagsList = exports.tagsList = (() => {
   };
 })();
 
-const download = exports.download = (() => {
-  var _ref6 = _asyncToGenerator(function* (repo) {
-    var _ref7 = yield getGitInfo(repo);
+const searchList = exports.searchList = (() => {
+  var _ref6 = _asyncToGenerator(function* () {
+    var _ref7 = yield (0, _rc2.default)();
 
-    const url = _ref7.url,
-          scaffold = _ref7.scaffold;
+    const type = _ref7.type,
+          registry = _ref7.registry;
+
+    let api;
+
+    if (type === 'user') {
+      api = `https://api.github.com/users/${registry}/repos?per_page=100&page=1`;
+    } else if (type === 'org') {
+      api = `https://api.github.com/orgs/${registry}/repos?per_page=100&page=1`;
+    } else {
+      throw new Error('Type muse be user or org');
+    }
+
+    return yield fetch(api);
+  });
+
+  return function searchList() {
+    return _ref6.apply(this, arguments);
+  };
+})();
+
+const download = exports.download = (() => {
+  var _ref8 = _asyncToGenerator(function* (repo) {
+    var _ref9 = yield getGitInfo(repo);
+
+    const url = _ref9.url,
+          scaffold = _ref9.scaffold;
 
 
     return new Promise(function (resolve, reject) {
@@ -132,6 +157,6 @@ const download = exports.download = (() => {
   });
 
   return function download(_x3) {
-    return _ref6.apply(this, arguments);
+    return _ref8.apply(this, arguments);
   };
 })();

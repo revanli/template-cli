@@ -10,7 +10,6 @@ if (!checkNodeVersion()) {
 
 async function apply (command, ...args) {
   try {
-    console.log('command>>>>>', command, 'args>>>>', ...args)
     await betterRequire(resolve(__dirname, `./${command}`))(...args)
   } catch (e) {
     console.log(chalk.red(e))

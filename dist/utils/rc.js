@@ -9,6 +9,19 @@ let apply = (() => {
     let config, content, setting;
     const isExist = yield (0, _fs.exists)(_defs.dirs.rc);
 
+    // delete config value
+    if (remove) {
+      config = _ini2.default.parse((yield (0, _fs.readFile)(_defs.dirs.rc, 'utf-8')));
+      if (config[k]) {
+        delete config[k];
+        setting = Object.assign({}, config, { [k]: v || null });
+        yield (0, _fs.writeFile)(_defs.dirs.rc, _ini2.default.stringify(setting));
+      } else {
+        yield (0, _rmfr2.default)(`${_defs.dirs.rc}`);
+      }
+      return true;
+    }
+
     // write default setting to home rc path
     if (!k || k.length === 0) {
       if (!isExist) {
@@ -17,17 +30,6 @@ let apply = (() => {
         return content;
       }
       return _ini2.default.parse((yield (0, _fs.readFile)(_defs.dirs.rc, 'utf-8')));
-    }
-
-    // delete config value
-    if (remove) {
-      config = _ini2.default.parse((yield (0, _fs.readFile)(_defs.dirs.rc, 'utf-8')));
-      if (config[k]) {
-        delete config[k];
-        setting = Object.assign({}, config, { [k]: v || null });
-        yield (0, _fs.writeFile)(_defs.dirs.rc, _ini2.default.stringify(setting));
-      }
-      return true;
     }
 
     // get config value
@@ -62,6 +64,10 @@ var _ini2 = _interopRequireDefault(_ini);
 var _fs = require('mz/fs');
 
 var _defs = require('./defs');
+
+var _rmfr = require('rmfr');
+
+var _rmfr2 = _interopRequireDefault(_rmfr);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 

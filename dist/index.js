@@ -7,7 +7,6 @@ Object.defineProperty(exports, "__esModule", {
 let apply = (() => {
   var _ref = _asyncToGenerator(function* (command, ...args) {
     try {
-      console.log('command>>>>>', command, 'args>>>>', ...args);
       yield (0, _common.betterRequire)((0, _path.resolve)(__dirname, `./${command}`))(...args);
     } catch (e) {
       console.log(_chalk2.default.red(e));

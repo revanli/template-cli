@@ -13,9 +13,10 @@ export const dirs = {
 };
 
 export const defaults = {
+  repos      : 'github',
   registry   : 'vue-templates',
   type       : 'org', // ['org', 'user']
-  metalsmith : true
+  metalsmith : true,
 };
 
 export const alias = {
@@ -42,10 +43,4 @@ export const interfaces = {
   dir: 'interfaces',
   ask: 'interfaces/ask.js',
   hook: 'interfaces/hook.js'
-}
-
-export const repos = {
-  default: 'https://github.com',
-  github: 'https://github.com',
-  gitLab: 'http://git.thejoyrun.com/'
 }

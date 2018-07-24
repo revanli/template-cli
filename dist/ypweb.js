@@ -16,6 +16,10 @@ var _rc = require('./utils/rc');
 
 var _rc2 = _interopRequireDefault(_rc);
 
+var _inquirer = require('inquirer');
+
+var _inquirer2 = _interopRequireDefault(_inquirer);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
@@ -28,6 +32,9 @@ function help() {
   console.log('    - ypweb init');
   console.log('    - ypweb clear');
   console.log('    - ypweb list');
+  console.log('    - ypweb update');
+  console.log('    - ypweb search');
+  console.log('    - ypweb uninstall <installed template>');
   console.log('    - ypweb config set <key> <value>');
   console.log('    - ypweb config remove <key>');
   console.log('    - ypweb config get <key>');
@@ -60,6 +67,9 @@ try {
       const registry = yield (0, _rc2.default)('registry');
       const programTypes = {
         list: 'list installed template',
+        uninstall: `uninstall a installed template in ${_defs.dirs.download}`,
+        update: `update the installed template in ${_defs.dirs.download}`,
+        search: 'search the templates from your github organization/user',
         init: 'generate a new project from a template',
         install: `install remote templates from https://github.com/${registry}`,
         clear: 'clear all installed templates',

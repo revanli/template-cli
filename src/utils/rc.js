@@ -3,6 +3,7 @@
 import ini from 'ini'
 import { readFile, writeFile, exists } from 'mz/fs'
 import { defaults, dirs } from './defs'
+import rmfr from 'rmfr'
 
 const emptyValues = {
   undifined: true,
@@ -14,6 +15,19 @@ async function apply (k, v, remove) {
   let config, content, setting;
   const isExist = await exists(dirs.rc)
 
+  // delete config value
+  if (remove) {
+    config = ini.parse(await readFile(dirs.rc, 'utf-8'))
+    if (config[k]) {
+      delete config[k]
+      setting = Object.assign({}, config, { [k]: v || null })
+      await writeFile(dirs.rc, ini.stringify(setting))
+    } else {
+      await rmfr(`${dirs.rc}`)
+    }
+    return true
+  }
+
   // write default setting to home rc path
   if (!k || k.length === 0) {
     if (!isExist) {
@@ -22,17 +36,6 @@ async function apply (k, v, remove) {
       return content
     }
     return ini.parse(await readFile(dirs.rc, 'utf-8'))
-  }
-
-  // delete config value
-  if (remove) {
-    config = ini.parse(await readFile(dirs.rc, 'utf-8'))
-    if (config[k]) {
-      delete config[k]
-      setting = Object.assign({}, config, { [k]: v || null })
-      await writeFile(dirs.rc, ini.stringify(setting))
-    }
-    return true
   }
 
   // get config value

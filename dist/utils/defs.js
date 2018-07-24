@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.repos = exports.interfaces = exports.userAgent = exports.versions = exports.alias = exports.defaults = exports.dirs = undefined;
+exports.interfaces = exports.userAgent = exports.versions = exports.alias = exports.defaults = exports.dirs = undefined;
 
 var _os = require('os');
 
@@ -25,6 +25,7 @@ const dirs = exports.dirs = {
 };
 
 const defaults = exports.defaults = {
+  repos: 'github',
   registry: 'vue-templates',
   type: 'org', // ['org', 'user']
   metalsmith: true
@@ -54,10 +55,4 @@ const interfaces = exports.interfaces = {
   dir: 'interfaces',
   ask: 'interfaces/ask.js',
   hook: 'interfaces/hook.js'
-};
-
-const repos = exports.repos = {
-  default: 'https://github.com',
-  github: 'https://github.com',
-  gitLab: 'http://git.thejoyrun.com/'
 };

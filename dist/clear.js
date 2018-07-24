@@ -27,9 +27,7 @@ let apply = (() => {
       const loader = (0, _loading2.default)('removing');
       list.forEach((() => {
         var _ref2 = _asyncToGenerator(function* (dir) {
-          return yield (0, _rimraf2.default)(`${_defs.dirs.download}/${dir}`, function (err) {
-            console.log(err);
-          });
+          return yield (0, _rmfr2.default)(`${_defs.dirs.download}/${dir}`);
         });
 
         return function (_x) {
@@ -47,9 +45,9 @@ let apply = (() => {
 
 var _fs = require('mz/fs');
 
-var _rimraf = require('rimraf');
+var _rmfr = require('rmfr');
 
-var _rimraf2 = _interopRequireDefault(_rimraf);
+var _rmfr2 = _interopRequireDefault(_rmfr);
 
 var _inquirer = require('inquirer');
 

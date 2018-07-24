@@ -3,6 +3,7 @@ import ypweb from './index'
 import { version } from '../package.json'
 import { dirs, alias } from './utils/defs'
 import rc from './utils/rc'
+import inquirer from 'inquirer'
 
 function help () {
   console.log('')
@@ -12,6 +13,9 @@ function help () {
   console.log('    - ypweb init')
   console.log('    - ypweb clear')
   console.log('    - ypweb list')
+  console.log('    - ypweb update')
+  console.log('    - ypweb search')
+  console.log('    - ypweb uninstall <installed template>')
   console.log('    - ypweb config set <key> <value>')
   console.log('    - ypweb config remove <key>')
   console.log('    - ypweb config get <key>')
@@ -43,10 +47,13 @@ function registeredProgram (program, type, typeInfo) {
 }
 
 try {
-  (async function run() {
+  (async function run () {
     const registry = await rc('registry')
     const programTypes = {
       list       : 'list installed template',
+      uninstall  : `uninstall a installed template in ${dirs.download}`,
+      update     : `update the installed template in ${dirs.download}`,
+      search     : 'search the templates from your github organization/user',
       init       : 'generate a new project from a template',
       install    : `install remote templates from https://github.com/${registry}`,
       clear      : 'clear all installed templates',
@@ -62,7 +69,6 @@ try {
     // 遍历commander
     Object.keys(programTypes)
       .reduce((pre, type) => registeredProgram(pre, type, programTypes), program)
-
 
     program
       .on('-h', help)

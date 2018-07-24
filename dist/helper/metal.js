@@ -8,8 +8,6 @@ let apply = (() => {
   var _ref = _asyncToGenerator(function* (src, dest, answers) {
     const metalsmith = (0, _metalsmith2.default)(src);
 
-    // metalsmith(json) get the global metadata,
-
     return new Promise(function (resolve, reject) {
       metalsmith.metadata(answers).source('./').destination(dest).clean(false).use((0, _render2.default)()).build(function (err) {
         if (err) {

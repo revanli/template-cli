@@ -56,6 +56,21 @@ export const tagsList = async (repo) =>{
   return fetch(api, scaffold, url)
 }
 
+export const searchList = async () => {
+  const { type, registry } = await rc();
+  let api;
+
+  if (type === 'user') {
+    api = `https://api.github.com/users/${registry}/repos?per_page=100&page=1`;
+  } else if (type === 'org') {
+    api = `https://api.github.com/orgs/${registry}/repos?per_page=100&page=1`;
+  } else {
+    throw new Error('Type muse be user or org');
+  }
+
+  return await fetch(api);
+};
+
 export const download = async (repo) => {
   const { url, scaffold } = await getGitInfo(repo)
 

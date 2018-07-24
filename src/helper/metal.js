@@ -1,10 +1,8 @@
 import Metalsmith from 'metalsmith';
 import render from './render';
 
-async function apply (src, dest, answers) {
+async function apply(src, dest, answers) {
   const metalsmith = Metalsmith(src);
-
-  // metalsmith(json) get the global metadata,
 
   return new Promise((resolve, reject) => {
     metalsmith

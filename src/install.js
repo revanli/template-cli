@@ -2,7 +2,6 @@
  * ypweb install
  */
 
-
 import inquirer from 'inquirer'
 import loading from './utils/loading'
 import { repoList, tagsList, download } from './utils/git'
