@@ -30,7 +30,6 @@ function render() {
       }
 
       renderContent(str, meta, (err, res) => {
-        console.log('file>>>', file, meta)
         if (err) {
           return next(err)
         }

@@ -75,7 +75,7 @@ export default async function apply () {
 
     if (typeof ask === 'function') {
       // set default project name is scaffold name
-      ask = ask(scaffold);
+      ask = ask(scaffold, inquirer);
     }
 
     if (!Array.isArray(ask)) {

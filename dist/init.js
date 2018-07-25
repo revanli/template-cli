@@ -108,7 +108,7 @@ exports.default = (() => {
 
       if (typeof ask === 'function') {
         // set default project name is scaffold name
-        ask = ask(scaffold);
+        ask = ask(scaffold, _inquirer2.default);
       }
 
       if (!Array.isArray(ask)) {
