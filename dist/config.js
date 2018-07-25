@@ -44,35 +44,13 @@ let apply = (() => {
         });
         break;
       default:
-        yield init();
+        // new config
+        yield (0, _rc2.default)();
     }
   });
 
   return function apply(_x, _x2, _x3) {
     return _ref.apply(this, arguments);
-  };
-})();
-
-let init = (() => {
-  var _ref2 = _asyncToGenerator(function* () {
-    // 新建
-    yield (0, _rc2.default)();
-    const answers = yield _inquirer2.default.prompt([{
-      type: 'list',
-      name: 'repos',
-      message: 'which repos do you want to init?',
-      choices: ['github', 'gitLab']
-    }]);
-    const repos = answers.repos;
-    if (repos.gitLab) {
-      yield (0, _rc2.default)(repos, gitLab);
-    } else if (repos.github) {
-      yield (0, _rc2.default)(repos, github);
-    }
-  });
-
-  return function init() {
-    return _ref2.apply(this, arguments);
   };
 })();
 

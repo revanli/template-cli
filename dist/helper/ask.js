@@ -34,7 +34,8 @@ function askCreator(template = '') {
   }, {
     type: 'input',
     name: 'description',
-    message: 'description'
+    message: 'description',
+    default: 'A Vue project'
   }, {
     type: 'input',
     name: 'license',

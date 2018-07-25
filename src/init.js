@@ -23,6 +23,12 @@ export default async function apply () {
     logger.error(`There is no any scaffolds in your local folder ${download}, install it`);
   }
 
+  if (list[0] == '.DS_Store') {
+    // 剔除.DS_Store目录
+    list.splice(0, 1)
+  }
+
+
   const answers = await inquirer.prompt([
     {
       type   : 'list',
@@ -68,6 +74,7 @@ export default async function apply () {
     }
 
     if (typeof ask === 'function') {
+      // set default project name is scaffold name
       ask = ask(scaffold);
     }
 
@@ -77,8 +84,7 @@ export default async function apply () {
 
     // object, { ask.name: answer }
     reply = await inquirer.prompt(ask);
-    loader = loading('generating', dir);
-    console.log(resolve(download, scaffold));
+    loader = loading('generating', resolve(root, dir));
     await metal(
       resolve(download, scaffold),
       resolve(root, dir),
@@ -86,7 +92,7 @@ export default async function apply () {
     );
     // rm dest interfaces
     await rmfr(`${resolve(root, dir, interfaces.dir)}`);
-    loader.succeed(`generated ${dir}`);
+    loader.succeed(`generated ${resolve(root, dir)}`);
 
     // support hook function after for developer
     try {
@@ -107,8 +113,8 @@ export default async function apply () {
       throw e;
     }
   } else {
-    loader = loading('generating', dir);
+    loader = loading('generating', resolve(root, dir));
     await copy(`${download}/${scaffold}`, dir);
-    loader.succeed(`generated ${dir}`);
+    loader.succeed(`generated ${resolve(root, dir)}`);
   }
 }

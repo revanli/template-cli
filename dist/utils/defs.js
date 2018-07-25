@@ -25,7 +25,6 @@ const dirs = exports.dirs = {
 };
 
 const defaults = exports.defaults = {
-  repos: 'github',
   registry: 'vue-templates',
   type: 'org', // ['org', 'user']
   metalsmith: true

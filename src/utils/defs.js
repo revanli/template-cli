@@ -13,7 +13,6 @@ export const dirs = {
 };
 
 export const defaults = {
-  repos      : 'github',
   registry   : 'vue-templates',
   type       : 'org', // ['org', 'user']
   metalsmith : true,

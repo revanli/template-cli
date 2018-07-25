@@ -3,7 +3,7 @@ import render from './render';
 
 async function apply(src, dest, answers) {
   const metalsmith = Metalsmith(src);
-
+  console.log('answers>>>', answers)
   return new Promise((resolve, reject) => {
     metalsmith
 	  .metadata(answers)

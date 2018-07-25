@@ -55,6 +55,11 @@ exports.default = (() => {
       logger.error(`There is no any scaffolds in your local folder ${download}, install it`);
     }
 
+    if (list[0] == '.DS_Store') {
+      // 剔除.DS_Store目录
+      list.splice(0, 1);
+    }
+
     const answers = yield _inquirer2.default.prompt([{
       type: 'list',
       name: 'scaffold',
@@ -102,6 +107,7 @@ exports.default = (() => {
       }
 
       if (typeof ask === 'function') {
+        // set default project name is scaffold name
         ask = ask(scaffold);
       }
 
@@ -111,12 +117,11 @@ exports.default = (() => {
 
       // object, { ask.name: answer }
       reply = yield _inquirer2.default.prompt(ask);
-      loader = (0, _loading2.default)('generating', dir);
-      console.log((0, _path.resolve)(download, scaffold));
+      loader = (0, _loading2.default)('generating', (0, _path.resolve)(root, dir));
       yield (0, _metal2.default)((0, _path.resolve)(download, scaffold), (0, _path.resolve)(root, dir), reply);
       // rm dest interfaces
       yield (0, _rmfr2.default)(`${(0, _path.resolve)(root, dir, _defs.interfaces.dir)}`);
-      loader.succeed(`generated ${dir}`);
+      loader.succeed(`generated ${(0, _path.resolve)(root, dir)}`);
 
       // support hook function after for developer
       try {
@@ -137,9 +142,9 @@ exports.default = (() => {
         throw e;
       }
     } else {
-      loader = (0, _loading2.default)('generating', dir);
+      loader = (0, _loading2.default)('generating', (0, _path.resolve)(root, dir));
       yield (0, _copy2.default)(`${download}/${scaffold}`, dir);
-      loader.succeed(`generated ${dir}`);
+      loader.succeed(`generated ${(0, _path.resolve)(root, dir)}`);
     }
   });
 

@@ -46,26 +46,8 @@ async function apply (action, k, v) {
       Object.keys(config).forEach(key => console.log(`${chalk.green(key)}=${chalk.yellow(config[key])}`))
       break
     default:
-      await init()
-  }
-}
-
-async function init () {
-  // 新建
-  await rc()
-  const answers = await inquirer.prompt([
-    {
-      type    : 'list',
-      name    : 'repos',
-      message : 'which repos do you want to init?',
-      choices : ['github', 'gitLab']
-    }
-  ])
-  const repos = answers.repos
-  if (repos.gitLab) {
-    await rc(repos, gitLab)
-  } else if (repos.github) {
-    await rc(repos, github)
+      // new config
+      await rc()
   }
 }
 
